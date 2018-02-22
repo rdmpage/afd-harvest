@@ -1,9 +1,11 @@
 # afd-harvest
 Harvest Australian Faunal Directory
 
+## Links
+
+TAXON_GUID is ALA URL, e.g http://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:db447bf9-87eb-44de-a438-ce58c1fcd2e2 where **db447bf9-87eb-44de-a438-ce58c1fcd2e2** is the GUID. AFD UUIDs do not seem to be stable, ALA has history of replacement, see e.g. https://bie.ala.org.au/ws/species/urn:lsid:biodiversity.org.au:afd.taxon:db447bf9-87eb-44de-a438-ce58c1fcd2e2.json
 
 ## Format Definition
-
 
 Field name | Description
 -- | --
