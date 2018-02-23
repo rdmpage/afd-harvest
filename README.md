@@ -39,7 +39,7 @@ NAME_SUBTYPE | Further classification on the name type:
 RANK | The rank of this taxon.
 QUALIFICATION | Qualification or comments for the taxon.
 AUTHOR | The authority author name.
-YEAR | The authoriy year.
+YEAR | The authority year.
 ORIG_COMBINATION | Whether this is an original combination, either 'Y', 'N' or empty when not applicable.
 NAME_GUID | The GUID of the name.
 NAME_LAST_UPDATE | The time at which this name was last updated.
