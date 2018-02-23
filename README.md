@@ -86,3 +86,70 @@ PARENT_PUBLICATION_GUID | The GUID for the publication containing this publicati
 ## Gotchas
 
 The data files are not UTF-8 encoded so we need to convert them, see encode.php.
+
+## SPARQL queries
+
+### Subtree
+
+http://localhost:32773/test/sparql
+
+```
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+SELECT ?root_name ?parent_name ?child_name  WHERE
+{   
+VALUES ?root_name {"HYDROPTILIDAE"}
+?root dwc:scientificName ?root_name .
+?child rdfs:subClassOf+ ?root .
+?child rdfs:subClassOf ?parent .
+?child dwc:scientificName ?child_name .
+?parent dwc:scientificName ?parent_name .
+}
+```
+
+![image](https://rawgit.com/rdmpage/afd-harvest/master/HYDROPTILIDAE.png) 
+
+### Publications for names in subtree
+
+```
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX dwc: <http://rs.tdwg.org/dwc/terms/>
+SELECT DISTINCT ?author ?year  ?title ?journal ?pages WHERE
+{   
+VALUES ?root_name {"HYDROPTILIDAE"}
+?root dwc:scientificName ?root_name .
+?child rdfs:subClassOf+ ?root .
+?child rdfs:subClassOf ?parent .
+?child dwc:scientificName ?child_name .
+?parent dwc:scientificName ?parent_name .
+   ?child <http://rs.tdwg.org/ontology/voc/TaxonConcept#hasName> ?name .
+ ?name <http://rs.tdwg.org/ontology/voc/Common#publishedInCitation> ?pub .
+  ?pub <http://schema.org/author> ?author .
+  ?pub <http://schema.org/datePublished> ?year .
+  ?pub <http://schema.org/name> ?title .
+   OPTIONAL {
+    ?pub <http://prismstandard.org/namespaces/basic/2.1/publicationName> ?journal .
+  }
+  OPTIONAL {
+    ?pub <http://schema.org/pagination> ?pages .
+  }
+
+
+}
+```
+
+### To clear all data
+
+Make sure to change SPARQL endpoint to:
+http://localhost:32773/test/update
+
+```
+DELETE  {
+  ?s ?p ?o 
+} 
+WHERE {}
+```
+
+
