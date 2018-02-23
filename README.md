@@ -82,3 +82,7 @@ A miscellaneous publication
 PUBLICATION_GUID | The GUID for this publication record.
 PUBLICATION_LAST_UPDATE | The timestamp of the last update to this publication.
 PARENT_PUBLICATION_GUID | The GUID for the publication containing this publication (if any).
+
+## Gotchas
+
+The data files are not UTF-8 encoded so we need to convert them, see encode.php.
