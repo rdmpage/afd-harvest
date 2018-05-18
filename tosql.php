@@ -17,7 +17,7 @@ $basedir = dirname(__FILE__) . '/data';
 $files = scandir($basedir);
 
 // debugging
-$files=array('TRICHOPTERA.csv');
+//$files=array('TRICHOPTERA.csv');
 
 foreach ($files as $filename)
 {
@@ -76,7 +76,8 @@ foreach ($files as $filename)
 							}
 							
 							$keys[] = $column_keys[$k];
-							$values[] = '"' . addcslashes($v, '"') . '"';
+							
+							$values[] = '"' . addcslashes($v, '"\\') . '"';
 						}
 					}
 				

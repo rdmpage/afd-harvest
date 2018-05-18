@@ -157,6 +157,8 @@ $stack = array(
 'CILIOPHORA'
 );
 
+$stack = array('STRATIOMYIDAE');
+
 while (count($stack) > 0)
 {
 	$node = array_pop($stack);
