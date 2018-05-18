@@ -140,6 +140,18 @@ VALUES ?root_name {"HYDROPTILIDAE"}
 }
 ```
 
+### Names per year
+
+```
+SELECT ?year (STR(COUNT(?year)) as ?c) 
+WHERE {   
+  ?name <http://rs.tdwg.org/ontology/voc/Common#publishedInCitation> ?publication .
+  ?publication <http://schema.org/datePublished> ?year .
+}
+group by ?year
+order by desc(?year)
+```
+
 ### To clear all data
 
 Make sure to change SPARQL endpoint to:
