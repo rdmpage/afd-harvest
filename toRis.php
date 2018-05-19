@@ -28,8 +28,8 @@ while (!$done)
 	$sql = 'SELECT * FROM `bibliography` ';
 	
 	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Memoirs of the Queensland Museum"';
-	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Zootaxa"';
-	$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Annals And Magazine of Natural History"';
+	$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Bijdragen tot de Dierkunde"';
+	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Annals And Magazine of Natural History"';
 	
 	$sql .= ' ORDER BY PUB_YEAR';
 	$sql .= ' LIMIT ' . $page . ' OFFSET ' . $offset;
@@ -40,8 +40,7 @@ while (!$done)
 	if ($result == false) die("failed [" . __FILE__ . ":" . __LINE__ . "]: " . $sql);
 
 	while (!$result->EOF && ($result->NumRows() > 0)) 
-	{	
-	
+	{		
 		$reference = new stdclass;
 		
 		$reference->publisher_id = $result->fields['PUBLICATION_GUID'];
@@ -60,6 +59,21 @@ while (!$done)
 				break;
 		}
 		
+		if ($result->fields['PUB_AUTHOR'] != '')
+		{
+			$notes[] = $result->fields['PUB_AUTHOR'];
+			
+			$authorstring = $result->fields['PUB_AUTHOR'];
+			
+			$authorstring = preg_replace('/\.,\s+/', '.|', $authorstring);
+			$authorstring = preg_replace('/ & /', '|', $authorstring);
+			$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
+			$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
+			
+			$reference->authors = explode("|", $authorstring);			
+		}
+		
+		
 		$reference->year = $result->fields['PUB_YEAR'];	
 		
 		$notes[] = $reference->year;
@@ -72,8 +86,26 @@ while (!$done)
 		{
 			$reference->journal = $result->fields['PUB_PARENT_JOURNAL_TITLE'];
 			$notes[] = $reference->journal;
-		}
+
+			// volume
+			$matched = false;
 		
+			if (!$matched)
+			{
+				//echo $result->fields['PUB_FORMATTED'] . "\n";
+				
+				if (preg_match('/<em>' . $reference->journal . '<\/em><\/a> <strong>(?<volume>\d+)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
+				{
+					$reference->volume = $m['volume'];
+					
+					if ($m['issue'] != '')
+					{
+						$reference->issue = $m['issue'];
+					}
+					$matched = true;
+				}
+			}
+		}		
 		
 		// pages
 		
@@ -87,6 +119,7 @@ while (!$done)
 			{
 				$reference->spage = $m['spage'];
 				$reference->epage = $m['epage'];
+				$matched = true;
 			}
 		
 		}
@@ -94,10 +127,11 @@ while (!$done)
 		// 241-251, pl. 5, figs. 1-4
 		if (!$matched)
 		{
-			if (preg_match('/^(?<spage>\d+)-(?<epage>\d+),\s+/', $result->fields['PUB_PAGES'], $m))
+			if (preg_match('/^(?<spage>\d+)-(?<epage>\d+),?\s+/', $result->fields['PUB_PAGES'], $m))
 			{
 				$reference->spage = $m['spage'];
 				$reference->epage = $m['epage'];
+				$matched = true;
 			}
 		
 		}
