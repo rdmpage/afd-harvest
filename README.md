@@ -5,6 +5,10 @@ Harvest Australian Faunal Directory
 
 TAXON_GUID is ALA URL, e.g http://bie.ala.org.au/species/urn:lsid:biodiversity.org.au:afd.taxon:db447bf9-87eb-44de-a438-ce58c1fcd2e2 where **db447bf9-87eb-44de-a438-ce58c1fcd2e2** is the GUID. AFD UUIDs do not seem to be stable, ALA has history of replacement, see e.g. https://bie.ala.org.au/ws/species/urn:lsid:biodiversity.org.au:afd.taxon:db447bf9-87eb-44de-a438-ce58c1fcd2e2.json
 
+### Publication links
+
+Append the PUBLICATION GUID, e.g. a535cc67-8cd1-406d-b723-5cf61b25c5e4 to https://biodiversity.org.au/afd/publication/, e.g. https://biodiversity.org.au/afd/publication/a535cc67-8cd1-406d-b723-5cf61b25c5e4 .
+
 ## Format Definition
 
 Field name | Description
@@ -164,4 +168,34 @@ DELETE  {
 WHERE {}
 ```
 
+## Publication counts
+
+```
+SELECT PUB_PARENT_JOURNAL_TITLE, COUNT(PUBLICATION_GUID) AS c FROM bibliography WHERE PUB_PARENT_JOURNAL_TITLE IS NOT NULL GROUP BY PUB_PARENT_JOURNAL_TITLE ORDER BY c DESC;
+```
+
+Top 20 journals
+
+Journal | Count
+---|---:
+Annals and Magazine of Natural History | 2043
+Zootaxa | 1600
+Proceedings of the Linnean Society of New South Wales | 1597
+Proceedings of the Zoological Society of London | 1222
+Transactions of the Royal Society of South Australia | 919
+Australian Journal of Zoology | 887
+Records of the Australian Museum | 756
+Journal of the Australian Entomological Society | 741
+Memoirs of the Queensland Museum | 691
+Zoologischer Anzeiger | 543
+Records of the Western Australian Museum | 528
+Annales de la Société Entomologique de France | 514
+Transactions of the Entomological Society of London | 451
+Journal of Natural History | 444
+Proceedings of the United States National Museum | 435
+Proceedings of the Biological Society of Washington | 379
+Entomologist's Monthly Magazine | 376
+Records of the South Australian Museum (Adelaide) | 372
+Invertebrate Taxonomy | 361
+The Emu | 359
 
