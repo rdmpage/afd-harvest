@@ -2,7 +2,7 @@
 
 // Convert files to UTF-8 encoding
 
-$basedir = dirname(__FILE__) . '/data';
+$basedir = dirname(__FILE__) . '/bibliography';
 
 $files = scandir($basedir);
 
