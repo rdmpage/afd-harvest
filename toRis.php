@@ -28,8 +28,10 @@ while (!$done)
 	$sql = 'SELECT * FROM `bibliography` ';
 	
 	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Memoirs of the Queensland Museum"';
-	$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Bijdragen tot de Dierkunde"';
-	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Annals And Magazine of Natural History"';
+	//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Bijdragen tot de Dierkunde"';
+	$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "Annals And Magazine of Natural History"';
+	
+	$sql .= ' AND PUB_YEAR LIKE "196%"';
 	
 	$sql .= ' ORDER BY PUB_YEAR';
 	$sql .= ' LIMIT ' . $page . ' OFFSET ' . $offset;
@@ -105,7 +107,40 @@ while (!$done)
 					$matched = true;
 				}
 			}
-		}		
+			
+			// series info
+			// </em></a> 13 <strong>9</strong>:
+			if (!$matched)
+			{
+				//echo $result->fields['PUB_FORMATTED'] . "\n";
+				
+				if (preg_match('/<em>' . $reference->journal . '<\/em><\/a>\s+(?<series>\d+)\s+<strong>(?<volume>\d+)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
+				{
+					$reference->series = $m['series'];
+					$reference->volume = $m['volume'];
+					
+					if ($m['issue'] != '')
+					{
+						$reference->issue = $m['issue'];
+					}
+					$matched = true;
+				}
+			}
+			
+		}	
+		
+		if (isset($reference->series))	
+		{
+			$notes[] = $reference->series;
+		}
+		if (isset($reference->volume))	
+		{
+			$notes[] = $reference->volume;
+		}
+		if (isset($reference->issue))	
+		{
+			$notes[] = $reference->issue;
+		}
 		
 		// pages
 		
