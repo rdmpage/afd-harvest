@@ -199,3 +199,15 @@ Records of the South Australian Museum (Adelaide) | 372
 Invertebrate Taxonomy | 361
 The Emu | 359
 
+## Create views for a publication
+
+
+```
+CREATE VIEW`Copeia` AS SELECT * FROM `bibliography` WHERE `bibliography`.`PUB_PARENT_JOURNAL_TITLE` = "Copeia";
+```
+
+To generate view SQL for top 40 publications:
+
+```
+SELECT CONCAT('CREATE VIEW`', PUB_PARENT_JOURNAL_TITLE, '` AS SELECT * FROM `bibliography` WHERE `bibliography`.`PUB_PARENT_JOURNAL_TITLE` = "',PUB_PARENT_JOURNAL_TITLE,'";'), COUNT(PUBLICATION_GUID) AS c FROM bibliography WHERE PUB_PARENT_JOURNAL_TITLE IS NOT NULL GROUP BY PUB_PARENT_JOURNAL_TITLE ORDER BY c DESC LIMIT 40;
+```
