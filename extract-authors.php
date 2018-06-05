@@ -31,6 +31,7 @@ while (!$done)
 	$sql = 'SELECT * FROM `bibliography` ';
 	
 	//$sql .= ' WHERE PUBLICATION_GUID="2f9f095c-5ae1-450f-97b5-ddf120ad501d"';
+	$sql .= ' WHERE PUBLICATION_GUID="3023f70f-f6c8-4eb1-a8bf-a576393963bc"';
 	
 	$sql .= ' LIMIT ' . $page . ' OFFSET ' . $offset;
 
@@ -47,21 +48,40 @@ while (!$done)
 		
 			$authorstring = $result->fields['PUB_AUTHOR'];
 			
-			//echo $authorstring . "\n";
-			 
-			$authorstring = preg_replace('/,\s+Jr\.?/', '', $authorstring);
-		
-			$authorstring = preg_replace('/\.,\s+/', '.|', $authorstring);
-			$authorstring = preg_replace('/ & /', '|', $authorstring);
-			$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
-			$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
-		
-		
-			// echo $authorstring . "\n";
+			echo "-- $authorstring\n";
 			
-			$authors = explode("|", $authorstring);	
+			$matched = false;
+			$authors = array();
 			
-			// print_r($authors);		
+			// More complex
+			if (!$matched)
+			{
+			
+			 	// ignore Jr (it's a hassle)
+				$authorstring = preg_replace('/\.\s+Jr\.?/', '.', $authorstring);
+				
+				// remove et al.
+				$authorstring = preg_replace('/,?\s+et al./', '', $authorstring);
+				
+				// trim authors before ' in ' because we want authors of work, not name
+				$authorstring = preg_replace('/^(.*)\s+in\s+/', '', $authorstring);		
+		
+		
+				$authorstring = preg_replace('/\.\s*,\s+([^&])/', '.|$1', $authorstring);
+				
+				$authorstring = preg_replace('/,? & /', '|', $authorstring);
+				$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
+				$authorstring = preg_replace('/([A-Z])\.([A-Z])/', '$1. $2', $authorstring);
+				
+				
+		
+		
+				echo $authorstring . "\n";
+			
+				$authors = explode("|", $authorstring);	
+			}
+			
+			//print_r($authors);		
 			
 			foreach ($authors as $author)
 			{
@@ -91,7 +111,19 @@ while (!$done)
 				else
 				{
 					$keys[] = 'name';
-					$values[] = '"' . addcslashes($author, '"') . '"';				
+					$values[] = '"' . addcslashes($author, '"') . '"';		
+					
+					// try alternative parsing	
+					if (preg_match('/^(?<familyName>[A-Z]\w+)\s+(?<givenName>[A-Z]\.(\s+[A-Z]\.)*)$/u', $author, $m))
+					{
+						$keys[] = 'givenName';
+						$values[] = '"' . addcslashes($m['givenName'], '"') . '"';
+
+						$keys[] = 'familyName';
+						$values[] = '"' . addcslashes($m['familyName'], '"') . '"';
+
+					}
+					
 				}
 				
 				//print_r($keys);
