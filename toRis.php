@@ -181,7 +181,7 @@ $journals = array(
 
 
 $journals = array(
-"Euro"
+"Austral Entomology"
 );
 
 $doi_lookup = true;

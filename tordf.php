@@ -1,5 +1,7 @@
 <?php
+
 require_once (dirname(__FILE__) . '/adodb5/adodb.inc.php');
+
 
 //--------------------------------------------------------------------------------------------------
 $db = NewADOConnection('mysql');
