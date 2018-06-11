@@ -34,6 +34,11 @@ FROM bibliography
 WHERE PUBLICATION_GUID ="25d1f178-cadb-465a-9937-d75bbd17ca5c";';
 
 
+$sql = "SELECT DISTINCT afd.TAXON_GUID, NAME_GUID, SCIENTIFIC_NAME, bibliography.* 
+FROM bibliography 
+INNER JOIN afd USING(PUBLICATION_GUID) 
+WHERE afd.Genus IN ('Ctenophorus')";
+
 /*
 // book
 $sql = 'SELECT DISTINCT *
@@ -73,6 +78,8 @@ while (!$result->EOF)
 			{
 				$author_id = '<' . $subject_id . '#creator/' . $author->id . '>';
 				
+				// assume our faked id is same for all occurences of author 
+				$author_id = '<' . 'https://biodiversity.org.au/afd/publication/' . '#creator/' . $author->id . '>';				
 				
 				$triples[] = $s . ' <http://schema.org/creator> ' .  $author_id . ' .';
 				$triples[] = $author_id . ' <http://schema.org/name> ' . '"' . addcslashes($author->name, '"') . '"' . ' .';
@@ -240,21 +247,26 @@ while (!$result->EOF)
 	
 	$t = join("\n", $triples);
 	
-	//echo $t . "\n";
+	if (1)
+	{
+		echo $t . "\n";
+	}
+	else
+	{
 	
-	$doc = jsonld_from_rdf($t, array('format' => 'application/nquads'));
+		$doc = jsonld_from_rdf($t, array('format' => 'application/nquads'));
 	
-	$context = (object)array(
-		'@vocab' => 'http://schema.org/'
-	);
+		$context = (object)array(
+			'@vocab' => 'http://schema.org/'
+		);
 	
-	$compacted = jsonld_compact($doc, $context);
+		$compacted = jsonld_compact($doc, $context);
 
-	echo json_encode($compacted, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+		echo json_encode($compacted, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 	
-	echo "\n";
-	
-	
+		echo "\n";
+	}
+		
 	//exit();
 	
 	$result->MoveNext();

@@ -181,7 +181,10 @@ $journals = array(
 
 
 $journals = array(
-"Austral Entomology"
+//"Journal of the Malacological Society of Australia"
+//"Molluscan Research"
+//"Zoosystematics and Evolution"
+"Malacologia"
 );
 
 $doi_lookup = true;
