@@ -3,4 +3,7 @@ all.sql
 bibliography.sql
 
 junk/*
-rdf/bib.nt
+
+rdf/*.nt
+rdf/junk/*
+
