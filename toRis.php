@@ -184,7 +184,27 @@ $journals = array(
 //"Journal of the Malacological Society of Australia"
 //"Molluscan Research"
 //"Zoosystematics and Evolution"
-"Malacologia"
+//"Malacologia"
+//"Conservation Genetics"
+//'Austral Entomology'
+//'Fragmenta Entomologica'
+//'Aquatic Insects'
+//'Entomologica Scandinavica'
+//'Biology Letters'
+//'Systematic Biology'
+//'Ecological Entomology'
+//'Florida Entomologist'
+//'Environmental Biology of Fishes'
+//'Journal of Crustacean Biology'
+//'Subterranean Biology'
+//'The Coleopterists Bulletin'
+//'The Canadian Entomologist'
+//'Pacific Science'
+//'Journal of Fish Biology'
+//'Journal of Arachnology'
+//'Molecular Ecology'
+//'Journal of Zoology, London'
+'Psyche (Cambridge)'
 );
 
 $doi_lookup = true;
