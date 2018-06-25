@@ -222,7 +222,8 @@ $journals = array(
 //'Mitteilungen aus dem Zoologischen Museum in Berlin'
 
 //'Memoirs of the Queensland Museum - Nature'
-'Deep-Sea Research'
+//'Deep-Sea Research'
+'Nematologica'
 );
 
 $doi_lookup = true;
