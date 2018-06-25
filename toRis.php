@@ -204,7 +204,25 @@ $journals = array(
 //'Journal of Arachnology'
 //'Molecular Ecology'
 //'Journal of Zoology, London'
-'Psyche (Cambridge)'
+//'Psyche (Cambridge)'
+//'Tropical Zoology'
+//'Transactions of the Royal Society of Tropical Medicine and Hygiene',
+//'Annals of Tropical Medicine and Parasitology',
+//'American Journal of Tropical Medicine and Hygiene'
+//'Studies on Neotropical Fauna and Environment'
+//'Journal of Medical Entomology',
+//'Journal of the American Veterinary Medical Association',
+//'Medical Journal of Australia',
+//'Australian Journal for Experimental Biology and Medical Science',
+//'British Medical Journal'
+//'Science'
+//'International Journal of Speleology'
+//'Insect Systematics and Evolution',
+//'Proceedings of the Zoological Society of London',
+//'Mitteilungen aus dem Zoologischen Museum in Berlin'
+
+//'Memoirs of the Queensland Museum - Nature'
+'Deep-Sea Research'
 );
 
 $doi_lookup = true;
@@ -220,9 +238,9 @@ foreach ($journals as $journal)
 	{
 		$sql = 'SELECT * FROM `bibliography` ';
 
-		//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "' . $journal . '"';
+		$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "' . $journal . '"';
 
-		$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE LIKE "' . $journal . '%"';
+		//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE LIKE "' . $journal . '%"';
 	
 		//$sql .= ' AND PUB_YEAR LIKE "20%"';
 		

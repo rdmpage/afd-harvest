@@ -203,10 +203,10 @@ while (!$done)
 	FROM bibliography';
 	
 	// A specific journal or publication, otherwise we are getting everything
-	$sql .= ' WHERE PUBLICATION_GUID = "07e5fb9a-6ac2-4bba-9b16-aaa8000a0db1"';
+	//$sql .= ' WHERE PUBLICATION_GUID = "07e5fb9a-6ac2-4bba-9b16-aaa8000a0db1"';
 	
 	//$sql .= ' WHERE updated > "2018-06-16"';
-	//$sql .= ' WHERE updated > "2018-06-19"';
+	$sql .= ' WHERE updated > "2018-06-21"';
 	
 	$sql .= ' LIMIT ' . $page . ' OFFSET ' . $offset;
 
@@ -623,7 +623,7 @@ while (!$done)
 	
 		$t = join("\n", $triples);
 	
-		if (0)
+		if (1)
 		{
 			echo $t . "\n";
 		}
