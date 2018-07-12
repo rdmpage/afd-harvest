@@ -7,3 +7,4 @@ junk/*
 rdf/*.nt
 rdf/junk/*
 
+.DS_Store
