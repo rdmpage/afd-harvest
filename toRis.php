@@ -223,7 +223,77 @@ $journals = array(
 
 //'Memoirs of the Queensland Museum - Nature'
 //'Deep-Sea Research'
-'Nematologica'
+//'Nematologica'
+//'Systematics and Biodiversity'
+//'Memoirs of the Entomological Society of Canada'
+//'Marine Mammal Science'
+//'Marine Ecology Progress Series'
+//'Conservation Biology'
+//'Journal of Morphology'
+//'bmc genomics'
+//'Marine Genomics'
+//'Journal of Phycology',
+//'International Journal of Legal Medicine',
+//'Journal of Molecular Evolution',
+//'Molecular and Biochemical Parasitology',
+//'Auk',
+//'Science (Washington, D.C.)',
+//'Biological Journal of the Linnean Society of London',
+//'Genetical Research',
+//'Molecular Biology and Evolution',
+//'New Zealand Journal of Marine and Freshwater Research',
+//'Experimental Parasitology'
+//'Journal of Molecular Biology and Evolution',
+//'Mitochondrial DNA Part A',
+//'Proceedings of the National Academy of Sciences of the United States of America',
+//'Proceedings of the Royal Society of London (B)',
+//'BMC Evolutionary Biology',
+//'Genome'
+//'Genome Research'
+//'Chromosoma (Berlin)',
+//'New Zealand Journal of Science'
+/*'Biodiversity and Conservation',
+'Advances in Parasitology',
+'Biological Invasions',
+'Organisms, Diversity and Evolution',
+'Agricultural and Forest Entomology',
+'International Journal for Parasitology: Parasites and Wildlife'*/
+//'Veterinary Parasitology'
+//'Polskie Pismo Entomologiczne'
+//'Oriental Insects',
+//'Journal of Parasitology'
+//'Bionomina'
+//'Journal of the Royal Society of New Zealand'
+//'Acta Parasitologica',
+//'Parasitology International',
+//'Marine Parasitology',
+//'Annales de Parasitologie Humaine et Comparée'
+/*'Journal of Zoological Systematics and Evolutionary Research',
+'Cladistics',
+'Marine Biology, Berlin',
+'Polar Biology',
+'Nature (London)',
+'Journal of Animal Ecology',
+'Australian Journal of Marine and Freshwater Research',
+'Journal of Anatomy'*/
+//'Journal of the Linnean Society of London, Zoology'
+//'Acta Arachnologica'
+//'American Museum Novitates'
+//'Gene'
+//'Systematic and Applied Acarology'
+//'Journal of Biogeography',
+//'General and Applied Entomology',
+//'Folia Parasitologica',
+//'Entomologica Americana',
+//'Bulletin of the American Museum of Natural History',
+//'Annales Zoologici, Warszawa'
+//'Journal of Eukaryotic Microbiology',
+//'Protist',
+//'Behaviour'
+//'Publications of the Seto Marine Biological Laboratory'
+//'Peckhamia'
+//'Australian Journal of Ecology'
+'Journal of Experimental Marine Biology and Ecology'
 );
 
 $doi_lookup = true;
@@ -335,7 +405,7 @@ foreach ($journals as $journal)
 				{
 					//echo $result->fields['PUB_FORMATTED'] . "\n";
 				
-					if (preg_match('/<em>' . $reference->journal . '<\/em><\/a> <strong>(?<volume>\d+)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
+					if (preg_match('/<em>' . $reference->journal . '<\/em><\/a> <strong>(No. )?(?<volume>\d+(\.\d)?)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
 					{
 						$reference->volume = $m['volume'];
 					
@@ -402,7 +472,7 @@ foreach ($journals as $journal)
 		
 			if (!$matched)
 			{
-				if (preg_match('/^(pp.\s+)?(?<spage>\d+)\s*-\s*(?<epage>\d+)$/', $result->fields['PUB_PAGES'], $m))
+				if (preg_match('/^(pp.\s+)?(?<spage>\d+)\s*-\s*(?<epage>\d+)\.?$/', $result->fields['PUB_PAGES'], $m))
 				{
 					$reference->spage = $m['spage'];
 					$reference->epage = $m['epage'];
