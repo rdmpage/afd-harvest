@@ -293,7 +293,20 @@ $journals = array(
 //'Publications of the Seto Marine Biological Laboratory'
 //'Peckhamia'
 //'Australian Journal of Ecology'
-'Journal of Experimental Marine Biology and Ecology'
+//'Journal of Experimental Marine Biology and Ecology'
+//'Zootaxa'
+//'Transactions of the Royal Entomological Society of London'
+//'Transactions of the Royal Society of South Australia'
+//'Transactions of the Linnean Society of London 2nd Series Zoology'
+//'Bulletin Mensuel de la Société Linnéenne de Lyon'
+//'Annales de la Société Linnéenne de Lyon'
+//'Bulletin of the American Museum of Natural History'
+//'Journal of Entomological Science'
+//'Journal of Orthoptera Research'
+//'Spixiana (Munich)'
+//'Annals of the Carnegie Museum'
+//'Psyche (Cambridge)'
+'Transactions of the Zoological Society of London'
 );
 
 $doi_lookup = true;
@@ -310,6 +323,10 @@ foreach ($journals as $journal)
 		$sql = 'SELECT * FROM `bibliography` ';
 
 		$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE = "' . $journal . '"';
+		
+		//$sql .= ' WHERE PUBLICATION_GUID="660e2a71-4c45-4c20-bbf2-026fc17e547f"';
+		
+		//$sql .= ' AND volume IS NULL';
 
 		//$sql .= ' WHERE PUB_PARENT_JOURNAL_TITLE LIKE "' . $journal . '%"';
 	
@@ -321,10 +338,12 @@ foreach ($journals as $journal)
 		{
 			$sql .= ' AND doi IS NULL';
 		}
+		/*
 		else
 		{
 			$sql .= ' AND spage IS NULL';
 		}
+		*/
 	
 		$sql .= ' ORDER BY PUB_YEAR DESC';
 		$sql .= ' LIMIT ' . $page . ' OFFSET ' . $offset;
@@ -404,8 +423,12 @@ foreach ($journals as $journal)
 				if (!$matched)
 				{
 					//echo $result->fields['PUB_FORMATTED'] . "\n";
+					
+					$journal = $reference->journal;
+					$journal = str_replace('(', '\(', $journal);
+					$journal = str_replace(')', '\)', $journal);
 				
-					if (preg_match('/<em>' . $reference->journal . '<\/em><\/a> <strong>(No. )?(?<volume>\d+(\.\d)?)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
+					if (preg_match('/<em>' . $journal . '<\/em><\/a> <strong>(No. )?(?<volume>\d+(\.\d)?)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
 					{
 						$reference->volume = $m['volume'];
 					
@@ -416,14 +439,20 @@ foreach ($journals as $journal)
 						$matched = true;
 					}
 				}
+				
+			
 			
 				// series info
 				// </em></a> 13 <strong>9</strong>:
 				if (!$matched)
 				{
 					//echo $result->fields['PUB_FORMATTED'] . "\n";
+
+					$journal = $reference->journal;
+					$journal = str_replace('(', '\(', $journal);
+					$journal = str_replace(')', '\)', $journal);
 				
-					if (preg_match('/<em>' . $reference->journal . '<\/em><\/a>\s+\(?(?<series>\d+)\)?\s+<strong>(?<volume>\d+)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
+					if (preg_match('/<em>' . $journal . '<\/em><\/a>\s+\(?(?<series>\d+)\)?\s+<strong>(?<volume>\d+)<\/strong>(\((?<issue>.*)\))?:/', $result->fields['PUB_FORMATTED'] , $m))
 					{
 						$reference->series = $m['series'];
 						$reference->volume = $m['volume'];
